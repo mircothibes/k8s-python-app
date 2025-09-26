@@ -1,0 +1,16 @@
+$cfg = @"
+apiVersion: kind.x-k8s.io/v1alpha4
+kind: Cluster
+nodes:
+- role: control-plane
+  extraPortMappings:
+  - containerPort: 80
+    hostPort: 8080
+    protocol: TCP
+  - containerPort: 443
+    hostPort: 8443
+    protocol: TCP
+"@
+[IO.File]::WriteAllText("$PWD\kind-config.yaml", $cfg, (New-Object System.Text.UTF8Encoding($false)))
+
+Get-Content .\kind-config.yaml
