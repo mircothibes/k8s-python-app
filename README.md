@@ -57,3 +57,10 @@ k8s-python-app/
 
 ---
 
+## 📜 License
+
+This project is intended for learning purposes. Free to use and modify.
+
+---
+
+
