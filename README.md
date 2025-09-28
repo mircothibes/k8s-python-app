@@ -48,3 +48,12 @@ k8s-python-app/
 
 ---
 
+## 🎯 Project goals
+
+- Practice Kubernetes and Docker with Python
+- Learn how to configure a local cluster with Kind
+- Integrate a simple application with PostgreSQL
+- Understand how to use an Ingress Controller (NGINX)
+
+---
+
