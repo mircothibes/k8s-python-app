@@ -36,6 +36,15 @@ k8s-python-app/
 │── requirements.txt
 │── kind-config.yaml
 └── README.md
- 
+ ```
+
  ---
+
+## 📖 API endpoints
+
+- / → returns {"message": "Hello, Kubernetes!"}
+- /healthz → returns {"status": "ok"}
+- /readyz → returns {"status": "ready"}
+
+---
 
