@@ -63,4 +63,10 @@ This project is intended for learning purposes. Free to use and modify.
 
 ---
 
+## 👤 Author
+
+**Marcos Vinicius Thibes Kemer**
+
+---
+
 
