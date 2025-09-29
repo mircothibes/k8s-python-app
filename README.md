@@ -55,6 +55,19 @@ helm install ingress ingress-nginx/ingress-nginx -n ingress-nginx --create-names
   --set controller.hostPort.enabled=true
 ```
 
+3. Build and load Docker image into Kind
+```bash
+kubectl apply -f k8s/namespace.yaml
+kubectl apply -f k8s/postgres-secret.yaml
+kubectl apply -f k8s/postgres-deployment.yaml
+kubectl apply -f k8s/postgres-service.yaml
+kubectl apply -f k8s/app-configmap.yaml
+kubectl apply -f k8s/app-deployment.yaml
+kubectl apply -f k8s/app-service.yaml
+kubectl apply -f k8s/ingress.yaml
+```
+
+
 ---
 
 ## 📖 API endpoints
