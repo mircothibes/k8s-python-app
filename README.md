@@ -54,6 +54,7 @@ helm repo update
 helm install ingress ingress-nginx/ingress-nginx -n ingress-nginx --create-namespace \
   --set controller.hostPort.enabled=true
 ```
+
 3. Build and load Docker image into Kind
 ```bash
 docker build -t k8s-python-app:dev .
@@ -72,6 +73,13 @@ kubectl apply -f k8s/app-service.yaml
 kubectl apply -f k8s/ingress.yaml
 ```
 
+5. Test the application
+- Inside the cluster:
+```bash
+http://app.localtest.me:8080/
+http://app.localtest.me:8080/healthz
+http://app.localtest.me:8080/readyz
+```
 
 ---
 
