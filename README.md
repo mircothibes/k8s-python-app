@@ -54,8 +54,13 @@ helm repo update
 helm install ingress ingress-nginx/ingress-nginx -n ingress-nginx --create-namespace \
   --set controller.hostPort.enabled=true
 ```
-
 3. Build and load Docker image into Kind
+```bash
+docker build -t k8s-python-app:dev .
+kind load docker-image k8s-python-app:dev --name dev
+```
+
+4. Apply Kubernetes manifests
 ```bash
 kubectl apply -f k8s/namespace.yaml
 kubectl apply -f k8s/postgres-secret.yaml
