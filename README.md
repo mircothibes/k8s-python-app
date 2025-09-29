@@ -38,7 +38,15 @@ k8s-python-app/
 └── README.md
  ```
 
- ---
+---
+
+## ▶️ How to run locally
+
+1. Create a Kind cluster
+```bash
+kind create cluster --name dev --config kind-config.yaml
+```
+---
 
 ## 📖 API endpoints
 
