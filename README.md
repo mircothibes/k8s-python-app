@@ -76,6 +76,10 @@ kubectl apply -f k8s/ingress.yaml
 5. Test the application
 - Inside the cluster:
 ```bash
+kubectl -n demo run tmp --rm -it --image=busybox:1.36 --restart=Never -- wget -qO- http://app-svc/healthz
+```
+- Via browser (with DNS/hosts configured):
+```bash
 http://app.localtest.me:8080/
 http://app.localtest.me:8080/healthz
 http://app.localtest.me:8080/readyz
