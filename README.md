@@ -46,6 +46,15 @@ k8s-python-app/
 ```bash
 kind create cluster --name dev --config kind-config.yaml
 ```
+
+2. Install NGINX ingress controller
+```bash
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update
+helm install ingress ingress-nginx/ingress-nginx -n ingress-nginx --create-namespace \
+  --set controller.hostPort.enabled=true
+```
+
 ---
 
 ## 📖 API endpoints
