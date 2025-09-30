@@ -25,3 +25,11 @@ spec:
             exec: { command: ["pg_isready","-U","appuser"] }
             initialDelaySeconds: 20
             periodSeconds: 10
+          volumeMounts:
+            - name: pgdata
+              mountPath: /var/lib/postgresql/data
+              subPath: data
+      volumes:
+        - name: pgdata
+          persistentVolumeClaim:
+            claimName: postgres-pvc
