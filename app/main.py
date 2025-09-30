@@ -9,8 +9,10 @@ def root():
 
 @app.get("/healthz")
 def healthz():
+    print(">>> /healthz called")
     return JSONResponse(content={"status": "ok"})
 
 @app.get("/readyz")
 def readyz():
     return {"ready": True}
+
