@@ -4,4 +4,4 @@ metadata:
   name: app-config
   namespace: demo
 data:
-  DATABASE_URL: "postgresql://appuser:postgrespwd@postgres.demo.svc.cluster.local:5432/appdb"
+  APP_ENV: "dev"
