@@ -18,8 +18,8 @@ spec:
           env:
             - name: DATABASE_URL
               valueFrom:
-                configMapKeyRef:
-                  name: app-config
+                secretKeyRef:
+                  name: app-secret
                   key: DATABASE_URL
           readinessProbe:
             httpGet: { path: /readyz, port: 8080 }
@@ -32,3 +32,4 @@ spec:
           resources:
             requests: { cpu: "100m", memory: "128Mi" }
             limits:   { cpu: "500m", memory: "512Mi" }
+
