@@ -7,9 +7,8 @@ app = FastAPI()
 def root():
     return {"message": "Hello, Kubernetes!"}
 
-@app.get("/healthz")
-def healthz():
-    print(">>> /healthz called")
+@app.get("/livez")
+def livez():
     return JSONResponse(content={"status": "ok"})
 
 @app.get("/readyz")
