@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
-from prometheus_fastapi_instrumentator import Instrumentato
+from prometheus_fastapi_instrumentator import Instrumentator
 
 app = FastAPI()
 
