@@ -1,7 +1,11 @@
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
+from prometheus_fastapi_instrumentator import Instrumentato
 
 app = FastAPI()
+
+# instrument and expose /metrics
+Instrumentator().instrument(app).expose(app, endpoint="/metrics")
 
 @app.get("/")
 def root():
