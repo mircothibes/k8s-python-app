@@ -1,0 +1,52 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: app-alerts
+  namespace: monitoring
+spec:
+  groups:
+  - name: fastapi.rules
+    rules:
+    # App alvo fora do ar
+    - alert: AppTargetDown
+      expr: up{namespace="demo", service="app-svc"} == 0
+      for: 2m
+      labels: {severity: critical}
+      annotations:
+        summary: "App target down"
+        description: "The app 'app-svc' in namespace 'demo' is down for 2m."
+    # Erro > 5% por 5m
+    - alert: AppHighErrorRate
+      expr: sum(rate(http_requests_total{status=~"5.."}[5m])) / sum(rate(http_requests_total[5m])) > 0.05
+      for: 5m
+      labels: {severity: warning}
+      annotations:
+        summary: "High 5xx error rate (>5%)"
+        description: "5xx over total requests is above 5% for 5 minutes."
+    # Latência P95 > 500ms por 5m
+    - alert: AppHighLatencyP95
+      expr: histogram_quantile(0.95, sum by (le) (rate(http_request_duration_seconds_bucket[5m]))) > 0.5
+      for: 5m
+      labels: {severity: warning}
+      annotations:
+        summary: "High P95 latency (>500ms)"
+        description: "95th percentile request duration exceeded 500ms for 5 minutes."
+
+  - name: ingress.rules
+    rules:
+    # 5xx no Ingress > 2% por 5m
+    - alert: IngressHigh5xxRate
+      expr: sum(rate(nginx_ingress_controller_requests{status=~"5.."}[5m])) / sum(rate(nginx_ingress_controller_requests[5m])) > 0.02
+      for: 5m
+      labels: {severity: warning}
+      annotations:
+        summary: "Ingress 5xx > 2%"
+        description: "Ingress 5xx responses exceed 2% of total for 5 minutes."
+    # Muitas reinicializações de containers do app
+    - alert: AppContainerRestarts
+      expr: increase(kube_pod_container_status_restarts_total{namespace="demo", pod=~"app-.*"}[10m]) > 0
+      for: 0m
+      labels: {severity: warning}
+      annotations:
+        summary: "App container restarted"
+        description: "App container restarted within the last 10 minutes."
