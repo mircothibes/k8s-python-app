@@ -1,4 +1,4 @@
-apiVersion: batch/v1
+﻿apiVersion: batch/v1
 kind: Job
 metadata:
   name: traffic-gen
@@ -20,5 +20,3 @@ spec:
               done
               echo done
   backoffLimit: 0
-
-
