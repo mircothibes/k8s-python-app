@@ -1,0 +1,24 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: traffic-gen
+  namespace: demo
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: curl
+          image: curlimages/curl:8.8.0
+          command: ["/bin/sh","-lc"]
+          args:
+            - |
+              i=0
+              while [ $i -lt 300 ]; do
+                curl -s -o /dev/null -H "Host: app.127.0.0.1.nip.io" http://ingress-ingress-nginx-controller.ingress-nginx.svc/
+                i=$((i+1))
+              done
+              echo done
+  backoffLimit: 0
+
+
