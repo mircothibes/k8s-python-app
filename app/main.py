@@ -42,3 +42,6 @@ def livez():
 def readyz():
     return {"ready": True}
 
+@app.get("/healthz")
+def healthz():
+    return {"status": "ok"}
