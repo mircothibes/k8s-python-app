@@ -6,30 +6,41 @@ metadata:
 spec:
   replicas: 2
   selector:
-    matchLabels: { app: app }
+    matchLabels:
+      app: app
   template:
     metadata:
-      labels: { app: app }
+      labels:
+        app: app
     spec:
       containers:
-        - name: web
-          image: k8s-python-app:dev
-          ports: [{ containerPort: 8080 }]
-          env:
-            - name: DATABASE_URL
-              valueFrom:
-                secretKeyRef:
-                  name: app-secret
-                  key: DATABASE_URL
-          readinessProbe:
-            httpGet: { path: /readyz, port: 8080 }
-            initialDelaySeconds: 5
-            periodSeconds: 5
-          livenessProbe:
-            httpGet: { path: /livez, port: 8080 }
-            initialDelaySeconds: 10
-            periodSeconds: 10
-          resources:
-            requests: { cpu: "100m", memory: "128Mi" }
-            limits:   { cpu: "500m", memory: "512Mi" }
+      - name: web
+        image: k8s-python-app:dev
+        ports:
+        - containerPort: 8080
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: app-secret
+              key: DATABASE_URL
+        readinessProbe:
+          httpGet:
+            path: /readyz
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /livez
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
 
