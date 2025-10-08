@@ -58,7 +58,7 @@ try { docker info *> $null } catch { Die "Docker Desktop is not running. Start D
 $clusterName = "dev"
 if ($Reset){
   LogWarn "Reset requested -> deleting cluster '$clusterName' if it exists..."
-  & kind delete cluster --name $clusterName *> $null
+  cmd /c "kind delete cluster --name $clusterName >nul 2>nul"
 }
 $clusters = & kind get clusters
 if (-not ($clusters -match "^\s*$clusterName\s*$")){
