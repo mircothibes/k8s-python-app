@@ -3,10 +3,11 @@
 # Project: k8s-python-app
 
 param(
-  [switch]$Reset,             # Deletes and recreates Kind cluster 'dev'
-  [switch]$NoOpen,            # Do not auto-open browser
-  [switch]$SkipPortForward,   # Do not start port-forward
-  [int]$TrafficCount = 0      # Generate N requests to create traffic (0 = disabled)
+  [switch]$Reset,               # Deletes and recreates Kind cluster 'dev'
+  [switch]$InstallMonitoring,   # Install kube-prometheus-stack (Prometheus + Grafana)
+  [switch]$NoOpen,              # Do not auto-open browser
+  [switch]$SkipPortForward,     # Do not start port-forward
+  [int]$TrafficCount = 0        # Generate N requests (0 = disabled)
 )
 
 Set-StrictMode -Version Latest
@@ -63,7 +64,7 @@ if ($LASTEXITCODE -ne 0){ Die "kubectl is not available in PATH." }
 kind version *> $null
 if ($LASTEXITCODE -ne 0){ Die "kind is not available in PATH." }
 
-helm version --short *> $null
+helm version *> $null
 if ($LASTEXITCODE -ne 0){ Die "helm is not available in PATH." }
 
 # ---------- Kind cluster ----------
@@ -87,23 +88,6 @@ if (-not ($clusters -match "^\s*$clusterName\s*$")){
 Exec "kubectl config use-context kind-dev"
 Exec "kubectl cluster-info"
 
-# ---------- Helm: ingress-nginx ----------
-LogInfo "Adding/updating Helm repos..."
-Exec "helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx"
-Exec "helm repo update"
-
-LogInfo "Installing/upgrading ingress-nginx (metrics enabled, hostPort enabled)..."
-Exec @"
-helm upgrade --install ingress ingress-nginx/ingress-nginx `
-  -n ingress-nginx --create-namespace `
-  --set controller.hostPort.enabled=true `
-  --set controller.metrics.enabled=true `
-  --set controller.metrics.serviceMonitor.enabled=true `
-  --set controller.metrics.serviceMonitor.namespace=monitoring
-"@
-
-Exec "kubectl -n ingress-nginx rollout status deploy/ingress-ingress-nginx-controller --timeout=180s"
-
 # ---------- Namespaces ----------
 LogInfo "Ensuring namespaces exist..."
 try { kubectl get ns demo -o name *> $null } catch {}
@@ -112,8 +96,29 @@ if ($LASTEXITCODE -ne 0){ Exec "kubectl create ns demo" }
 try { kubectl get ns monitoring -o name *> $null } catch {}
 if ($LASTEXITCODE -ne 0){ Exec "kubectl create ns monitoring" }
 
+# ---------- Helm repos ----------
+LogInfo "Adding/updating Helm repos..."
+Exec "helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx"
+Exec "helm repo add prometheus-community https://prometheus-community.github.io/helm-charts"
+Exec "helm repo update"
+
+# ---------- Install Prometheus Operator CRDs (required for ServiceMonitor) ----------
+LogInfo "Installing/Upgrading Prometheus Operator CRDs..."
+Exec "helm upgrade --install prometheus-operator-crds prometheus-community/prometheus-operator-crds"
+
+# ---------- Optional: kube-prometheus-stack (Prometheus + Grafana) ----------
+if ($InstallMonitoring){
+  LogInfo "Installing/Upgrading kube-prometheus-stack (Prometheus + Grafana)..."
+  Exec "helm upgrade --install monitoring prometheus-community/kube-prometheus-stack -n monitoring --create-namespace"
+}
+
+# ---------- Ingress NGINX (with metrics + ServiceMonitor) ----------
+LogInfo "Installing/Upgrading ingress-nginx (metrics + ServiceMonitor)..."
+Exec "helm upgrade --install ingress ingress-nginx/ingress-nginx -n ingress-nginx --create-namespace --set controller.hostPort.enabled=true --set controller.metrics.enabled=true --set controller.metrics.serviceMonitor.enabled=true --set controller.metrics.serviceMonitor.namespace=monitoring"
+
+Exec "kubectl -n ingress-nginx rollout status deploy/ingress-ingress-nginx-controller --timeout=180s"
+
 # ---------- App Secret (DATABASE_URL) ----------
-# This secret is required by the app Deployment.
 LogInfo "Ensuring app-secret (DATABASE_URL) exists..."
 @"
 apiVersion: v1
@@ -150,7 +155,7 @@ ApplyIfPresent "k8s\app-deployment.yaml"
 ApplyIfPresent "k8s\app-service.yaml"
 ApplyIfPresent "k8s\ingress.yaml"
 
-# Ensure Service port has a name "http" (useful for probes/ingress)
+# Ensure Service port has a name "http"
 try {
   $svc = kubectl -n demo get svc app-svc -o json | ConvertFrom-Json
   if (-not $svc.spec.ports[0].name){
