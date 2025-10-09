@@ -57,7 +57,7 @@ if (Test-Path ".\.venv\Scripts\Activate.ps1"){
 LogInfo "Checking Docker Desktop..."
 try { docker info *> $null } catch { Die "Docker Desktop is not running. Start Docker and run this script again." }
 
-kubectl version --client --short *> $null
+kubectl version --client *> $null
 if ($LASTEXITCODE -ne 0){ Die "kubectl is not available in PATH." }
 
 kind version *> $null
