@@ -138,6 +138,13 @@ http://app.localtest.me:8080/readyz
 
 ---
 
+## 🧠 Lessons Learned
+
+- Deploying multi-service apps on Kubernetes requires managing multiple layers (namespace, service, ingress, monitoring).
+- Metrics appear only after traffic flows through the Ingress Controller.
+- The Prometheus Operator is powerful, but complex — starting with a minimal setup helps a lot.
+---
+
 ## 📜 License
 
 This project is intended for learning purposes. Free to use and modify.
