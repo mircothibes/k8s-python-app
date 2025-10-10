@@ -130,8 +130,11 @@ http://app.localtest.me:8080/readyz
 
 - Practice Kubernetes and Docker with Python
 - Learn how to configure a local cluster with Kind
-- Integrate a simple application with PostgreSQL
+- Deploy and link PostgreSQL database
+- Configure Ingress routing
+- Integrate Prometheus + Grafana for observability
 - Understand how to use an Ingress Controller (NGINX)
+- Simulate traffic using a Job (loadgen)
 
 ---
 
