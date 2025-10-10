@@ -19,9 +19,11 @@ This repository was created to **learn and demonstrate a full Kubernetes applica
 ## 📸 Screenshots
 
 ### 🧱 Project structure and FastAPI app
+> FastAPI app instrumented with Prometheus metrics.
 ![VSCode project structure](assets/vscode-structure.png)
 
 ### 📊 Grafana – NGINX Ingress request metrics
+> Grafana dashboard displaying HTTP 2xx/4xx/5xx rates through the Ingress controller.
 ![Grafana dashboard with metrics](assets/grafana-metrics.png)
 ---
 
