@@ -16,13 +16,16 @@ This repository was created to **learn and demonstrate a full Kubernetes applica
 
 ---
 
-## 📌 Tech stack
-- [Python 3.12 + FastAPI](https://fastapi.tiangolo.com/) – simple API
-- [Docker](https://www.docker.com/) – containerization
-- [Kind](https://kind.sigs.k8s.io/) – local Kubernetes cluster
-- [Kubectl](https://kubernetes.io/docs/tasks/tools/) – Kubernetes CLI
-- [Helm](https://helm.sh/) – package manager for Kubernetes (used for ingress-nginx)
-- [PostgreSQL](https://www.postgresql.org/) – relational database
+## 🧰 Tech Stack
+
+| Tool | Purpose |
+|------|----------|
+| **Python 3.12 + FastAPI** | Application framework |
+| **PostgreSQL** | Relational database |
+| **Docker** | Containerization |
+| **Kubernetes (Kind)** | Local cluster for development |
+| **Helm** | Package manager for installing Ingress NGINX |
+| **Prometheus + Grafana** | Observability stack (optional) |
 
 ---
 
