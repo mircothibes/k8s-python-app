@@ -16,6 +16,15 @@ This repository was created to **learn and demonstrate a full Kubernetes applica
 
 ---
 
+## 📸 Screenshots
+
+### 🧱 Project structure and FastAPI app
+![VSCode project structure](assets/vscode-structure.png)
+
+### 📊 Grafana – NGINX Ingress request metrics
+![Grafana dashboard with metrics](assets/grafana-metrics.png)
+---
+
 ## 🧰 Tech Stack
 
 | Tool | Purpose |
