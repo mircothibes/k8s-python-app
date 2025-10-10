@@ -5,6 +5,17 @@ The project also includes a **PostgreSQL** database, **NGINX Ingress Controller*
 
 ---
 
+## 🧩 Overview
+
+This repository was created to **learn and demonstrate a full Kubernetes application lifecycle**:
+- Building and packaging an app with Docker  
+- Deploying backend services with manifests (ConfigMap, Secret, PVC, Deployment, Service, Ingress)  
+- Integrating a database (PostgreSQL)  
+- Setting up monitoring (Prometheus & Grafana)  
+- Testing local Kubernetes clusters using Kind
+
+---
+
 ## 📌 Tech stack
 - [Python 3.12 + FastAPI](https://fastapi.tiangolo.com/) – simple API
 - [Docker](https://www.docker.com/) – containerization
