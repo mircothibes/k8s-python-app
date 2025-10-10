@@ -60,6 +60,14 @@ k8s-python-app/
 ├── requirements.txt
 └── README.md
  ```
+---
+## ⚙️ Prerequisites
+
+Make sure you have the following installed:
+- Docker Desktop
+- Kind
+- Kubectl
+- Helm
 
 ---
 
