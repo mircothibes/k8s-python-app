@@ -32,23 +32,32 @@ This repository was created to **learn and demonstrate a full Kubernetes applica
 ## 📂 Project structure
 ```bash
 k8s-python-app/
-│── app/
-│   ├── __init__.py
-│   └── main.py          # FastAPI application
 │
-│── k8s/                 # Kubernetes manifests
+├── app/                        # Application source code
+│   ├── __init__.py
+│   └── main.py                 # FastAPI app with health endpoints
+│
+├── k8s/                        # Kubernetes manifests
 │   ├── app-configmap.yaml
 │   ├── app-deployment.yaml
 │   ├── app-service.yaml
-│   ├── postgres-secret.yaml
+│   ├── app-secret.yaml
 │   ├── postgres-deployment.yaml
+│   ├── postgres-pvc.yaml
 │   ├── postgres-service.yaml
 │   ├── namespace.yaml
 │   └── ingress.yaml
 │
-│── Dockerfile
-│── requirements.txt
-│── kind-config.yaml
+├── monitoring/                 # Optional observability setup
+│   ├── app-servicemonitor.yaml
+│   ├── ingress-servicemonitor.yaml
+│   ├── app-alerts.yaml
+│   └── app-recording-rules.yaml
+│
+├── Dockerfile
+├── kind-config.yaml
+├── loadgen-job.yaml            # Load generator to simulate traffic
+├── requirements.txt
 └── README.md
  ```
 
